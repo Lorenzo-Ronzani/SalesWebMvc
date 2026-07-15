@@ -1,4 +1,4 @@
-namespace SalesWebMVC
+namespace SalesWebMvc
 {
     public class Program
     {
