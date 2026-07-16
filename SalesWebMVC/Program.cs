@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 namespace SalesWebMvc
 {
     public class Program
@@ -5,12 +7,18 @@ namespace SalesWebMvc
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var connectionString = builder.Configuration.GetConnectionString("SalesWebMvcContext") ?? throw new InvalidOperationException("Connection string 'SalesWebMvcContext' not found.");
+
+            builder.Services.AddDbContext<SalesWebMvcContext>(options =>
+            options.UseMySql(
+            builder.Configuration.GetConnectionString("SalesWebMvcContext"),
+            ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("SalesWebMvcContext"))));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
-            
+
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
