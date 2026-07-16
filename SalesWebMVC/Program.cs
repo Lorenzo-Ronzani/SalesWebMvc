@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using SalesWebMvc.Data;
 namespace SalesWebMvc
 {
     public class Program
@@ -14,10 +15,21 @@ namespace SalesWebMvc
             builder.Configuration.GetConnectionString("SalesWebMvcContext"),
             ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("SalesWebMvcContext"))));
 
+            //Register SeedingService
+            builder.Services.AddScoped<SeedingService>();
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
+
+            // Seed database
+            using (var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+                var seedingService = services.GetRequiredService<SeedingService>();
+                seedingService.Seed();
+            }
 
 
             // Configure the HTTP request pipeline.
