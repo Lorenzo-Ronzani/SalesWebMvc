@@ -1,6 +1,6 @@
 ﻿namespace SalesWebMvc.Models.Enums
 {
-    public enum SaleStatus : int
+    public enum SalesStatus : int
     {
         Pending = 0,
         Billed = 1,

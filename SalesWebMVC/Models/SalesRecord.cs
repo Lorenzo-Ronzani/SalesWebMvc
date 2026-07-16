@@ -1,4 +1,5 @@
-﻿namespace SalesWebMvc.Models
+﻿using SalesWebMvc.Models.Enums;
+namespace SalesWebMvc.Models
 {
     public class SalesRecord
     {
