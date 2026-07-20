@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
+using System.Globalization;
 using SalesWebMvc.Data;
 using SalesWebMvc.Services;
 namespace SalesWebMvc
@@ -26,7 +28,17 @@ namespace SalesWebMvc
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            var enUs = new CultureInfo("en-US");
+            var localizationOptions = new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("en-US"),
+                SupportedCultures = new List<CultureInfo> { enUs },
+                SupportedUICultures = new List<CultureInfo> { enUs }
+            };
+
             var app = builder.Build();
+
+            app.UseRequestLocalization(localizationOptions);
 
             // Seed database
             using (var scope = app.Services.CreateScope())
